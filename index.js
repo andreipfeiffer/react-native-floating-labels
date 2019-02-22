@@ -66,22 +66,22 @@ export default class FloatingLabel extends Component {
     Animated.parallel(anims).start();
   }
 
-  _onFocus = () => {
+  _onFocus = (...args) => {
     this._animate(true);
     this.setState({ dirty: true });
     if (this.props.onFocus) {
-      this.props.onFocus(arguments);
+      this.props.onFocus(args);
     }
   }
 
-  _onBlur = () => {
+  _onBlur = (...args) => {
     if (!this.state.text) {
       this._animate(false);
       this.setState({ dirty: false });
     }
 
     if (this.props.onBlur) {
-      this.props.onBlur(arguments);
+      this.props.onBlur(args);
     }
   }
 
