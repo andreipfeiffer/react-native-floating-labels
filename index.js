@@ -10,7 +10,7 @@ import {
   Text,
   View,
   Platform,
-  ViewPropTypes
+  ViewPropTypes,
 } from "react-native";
 
 var textPropTypes = Text.propTypes || ViewPropTypes;
@@ -20,26 +20,25 @@ var propTypes = {
   inputStyle: textInputPropTypes.style,
   labelStyle: textPropTypes.style,
   disabled: PropTypes.bool,
-  style: ViewPropTypes.style
+  style: ViewPropTypes.style,
 };
 
 // @todo extend default label styles with custom ones
 export default class FloatingLabel extends Component {
-
   constructor(props) {
     super(props);
 
     const dirty = props.value || props.placeholder;
     const style = dirty ? dirtyStyle : cleanStyle;
-    
+
     this.state = {
       text: props.value,
       dirty: dirty,
       labelStyle: {
         fontSize: new Animated.Value(style.fontSize),
-        top: new Animated.Value(style.top)
-      }
-    }
+        top: new Animated.Value(style.top),
+      },
+    };
   }
 
   componentWillReceiveProps(props) {
@@ -52,7 +51,7 @@ export default class FloatingLabel extends Component {
   _animate = (dirty) => {
     var nextStyle = dirty ? dirtyStyle : cleanStyle;
     var labelStyle = this.state.labelStyle;
-    var anims = Object.keys(nextStyle).map(prop => {
+    var anims = Object.keys(nextStyle).map((prop) => {
       return Animated.timing(
         labelStyle[prop],
         {
@@ -64,7 +63,7 @@ export default class FloatingLabel extends Component {
     });
 
     Animated.parallel(anims).start();
-  }
+  };
 
   _onFocus = (...args) => {
     this._animate(true);
@@ -72,7 +71,7 @@ export default class FloatingLabel extends Component {
     if (this.props.onFocus) {
       this.props.onFocus(args);
     }
-  }
+  };
 
   _onBlur = (...args) => {
     if (!this.state.text) {
@@ -83,14 +82,14 @@ export default class FloatingLabel extends Component {
     if (this.props.onBlur) {
       this.props.onBlur(args);
     }
-  }
+  };
 
   onChangeText = (text) => {
     this.setState({ text });
     if (this.props.onChangeText) {
       this.props.onChangeText(text);
     }
-  }
+  };
 
   updateText = (event) => {
     var text = event.nativeEvent.text;
@@ -99,7 +98,7 @@ export default class FloatingLabel extends Component {
     if (this.props.onEndEditing) {
       this.props.onEndEditing(event);
     }
-  }
+  };
 
   _renderLabel = () => {
     return (
@@ -110,7 +109,7 @@ export default class FloatingLabel extends Component {
         {this.props.children}
       </Animated.Text>
     );
-  }
+  };
 
   render() {
     var props = {
@@ -142,7 +141,7 @@ export default class FloatingLabel extends Component {
         value: this.state.text,
         underlineColorAndroid: this.props.underlineColorAndroid, // android TextInput will show the default bottom border
         onKeyPress: this.props.onKeyPress,
-        blurOnSubmit: this.props.blurOnSubmit
+        blurOnSubmit: this.props.blurOnSubmit,
       },
       elementStyles = [styles.element];
 
@@ -161,13 +160,13 @@ export default class FloatingLabel extends Component {
       </View>
     );
   }
-};
+}
 
 var labelStyleObj = {
   marginTop: 21,
   paddingLeft: 9,
   color: "#AAA",
-  position: "absolute"
+  position: "absolute",
 };
 
 if (Platform.OS === "web") {
@@ -176,7 +175,7 @@ if (Platform.OS === "web") {
 
 var styles = StyleSheet.create({
   element: {
-    position: "relative"
+    position: "relative",
   },
   input: {
     height: 40,
@@ -188,17 +187,17 @@ var styles = StyleSheet.create({
     // fontSize: 20,
     // borderRadius: 4,
     // paddingLeft: 10,
-    marginTop: 20
+    marginTop: 20,
   },
-  label: labelStyleObj
+  label: labelStyleObj,
 });
 
 var cleanStyle = {
   fontSize: 16,
-  top: 7
+  top: 7,
 };
 
 var dirtyStyle = {
   fontSize: 12,
-  top: -17
+  top: -17,
 };
