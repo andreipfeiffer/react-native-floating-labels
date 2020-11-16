@@ -41,7 +41,7 @@ export default class FloatingLabel extends Component {
     };
   }
 
-  componentWillReceiveProps(props) {
+  UNSAFE_componentWillReceiveProps(props) {
     if (typeof props.value !== "undefined" && props.value !== this.state.text) {
       this.setState({ text: props.value, dirty: !!props.value });
       this._animate(!!props.value);
@@ -56,7 +56,8 @@ export default class FloatingLabel extends Component {
         labelStyle[prop],
         {
           toValue: nextStyle[prop],
-          duration: 200
+          duration: 200,
+          useNativeDriver: false,
         },
         Easing.ease
       );
